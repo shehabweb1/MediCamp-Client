@@ -6,7 +6,7 @@ import {
 	IconButton,
 } from "@material-tailwind/react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
 	HomeIcon,
 	Bars3Icon,
@@ -80,16 +80,24 @@ const Header = () => {
 				</NavLink>
 				<div className="hidden lg:block">{navList}</div>
 				<div className="flex items-center gap-x-1">
-					<Button variant="text" size="sm" className="hidden lg:inline-block ">
-						<span>Log In</span>
-					</Button>
-					<Button
-						variant="gradient"
-						size="sm"
-						className="hidden lg:inline-block "
-					>
-						<span>Sign Up</span>
-					</Button>
+					<Link to="/login">
+						<Button
+							variant="text"
+							size="sm"
+							className="hidden lg:inline-block "
+						>
+							<span>Log In</span>
+						</Button>
+					</Link>
+					<Link to="/register">
+						<Button
+							variant="gradient"
+							size="sm"
+							className="hidden lg:inline-block "
+						>
+							<span>Sign Up</span>
+						</Button>
+					</Link>
 				</div>
 				<IconButton
 					variant="text"
@@ -108,12 +116,16 @@ const Header = () => {
 				<div className="container mx-auto">
 					{navList}
 					<div className="flex items-center gap-x-1">
-						<Button fullWidth variant="text" size="sm" className="">
-							<span>Log In</span>
-						</Button>
-						<Button fullWidth variant="gradient" size="sm" className="">
-							<span>Sign Up</span>
-						</Button>
+						<Link to="/login">
+							<Button fullWidth variant="text" size="sm" className="">
+								<span>Log In</span>
+							</Button>
+						</Link>
+						<Link to="/register">
+							<Button fullWidth variant="gradient" size="sm" className="">
+								<span>Sign Up</span>
+							</Button>
+						</Link>
 					</div>
 				</div>
 			</Collapse>
