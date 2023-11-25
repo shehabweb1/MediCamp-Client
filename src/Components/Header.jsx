@@ -73,7 +73,7 @@ const Header = () => {
 		</ul>
 	);
 	return (
-		<Navbar className="mx-auto max-w-screen-2xl px-4 py-2 fixed z-10 rounded-none">
+		<Navbar className="mx-auto max-w-screen-2xl px-4 py-2 sticky z-10 rounded-none top-0">
 			<div className="container mx-auto flex items-center justify-between text-blue-gray-900">
 				<NavLink to="/" className="mr-4 cursor-pointer">
 					<img src={logo} alt="MediCamp Logo" className="lg:w-32 w-60" />
