@@ -1,3 +1,4 @@
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Helmet } from "react-helmet-async";
 import PageBanner from "../../Components/PageBanner";
 import { Link } from "react-router-dom";
@@ -7,6 +8,7 @@ import { Input, Textarea } from "@material-tailwind/react";
 import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 import Swal from "sweetalert2";
+import "leaflet/dist/leaflet.css";
 
 const Contact = () => {
 	const { register, handleSubmit, reset } = useForm();
@@ -23,6 +25,8 @@ const Contact = () => {
 		}
 	};
 
+	const position = [23.7584, 90.3606];
+
 	return (
 		<>
 			<Helmet>
@@ -31,43 +35,65 @@ const Contact = () => {
 			<main>
 				<PageBanner title="Contact Us" />
 
-				<div className="py-20 md:w-1/3 mx-auto">
-					<h2 className="text-xl text-center mb-5">
-						Have a question or interested in our services? Feel free to ask
-						questions
-					</h2>
-					<form
-						onSubmit={handleSubmit(onSubmit)}
-						className="flex flex-col gap-6"
+				<div className="grid grid-cols-1 md:grid-cols-2 py-20">
+					<MapContainer
+						center={position}
+						zoom={11}
+						scrollWheelZoom={false}
+						className="z-0"
 					>
-						<Input
-							variant="outlined"
-							label="Full Name"
-							type="text"
-							{...register("name", { required: true, maxLength: 80 })}
+						<TileLayer
+							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 						/>
-						<Input
-							type="tel"
-							variant="outlined"
-							label="Mobile number"
-							{...register("mobile", { required: true, maxLength: 12 })}
-						/>
-						<Input
-							type="email"
-							variant="outlined"
-							label="Email"
-							{...register("email", { required: true, pattern: /^\S+@\S+$/i })}
-						/>
-						<Textarea
-							variant="outlined"
-							label="Massage Here"
-							{...register("message", {})}
-						/>
+						<Marker position={position}>
+							<Popup>
+								A pretty CSS3 popup. <br /> Easily customizable.
+							</Popup>
+						</Marker>
+					</MapContainer>
 
-						<AwesomeButton type="primary" size="medium">
-							Submit
-						</AwesomeButton>
-					</form>
+					<div className="px-10 mx-auto">
+						<h2 className="text-xl text-center mb-5">
+							Have a question or interested in our services? <br />
+							Feel free to ask questions
+						</h2>
+						<form
+							onSubmit={handleSubmit(onSubmit)}
+							className="flex flex-col gap-6 w-96"
+						>
+							<Input
+								variant="outlined"
+								label="Full Name"
+								type="text"
+								{...register("name", { required: true, maxLength: 80 })}
+							/>
+							<Input
+								type="tel"
+								variant="outlined"
+								label="Mobile number"
+								{...register("mobile", { required: true, maxLength: 12 })}
+							/>
+							<Input
+								type="email"
+								variant="outlined"
+								label="Email"
+								{...register("email", {
+									required: true,
+									pattern: /^\S+@\S+$/i,
+								})}
+							/>
+							<Textarea
+								variant="outlined"
+								label="Massage Here"
+								{...register("message", {})}
+							/>
+
+							<AwesomeButton type="primary" size="medium">
+								Submit
+							</AwesomeButton>
+						</form>
+					</div>
 				</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 md:p-20 p-5 text-white">

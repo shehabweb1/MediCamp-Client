@@ -4,9 +4,15 @@ import {
 	Typography,
 	Button,
 	IconButton,
+	Menu,
+	MenuHandler,
+	Avatar,
+	MenuList,
+	MenuItem,
+	Spinner,
 } from "@material-tailwind/react";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
 	HomeIcon,
 	Bars3Icon,
@@ -14,12 +20,23 @@ import {
 	ChatBubbleOvalLeftEllipsisIcon,
 	HomeModernIcon,
 	SquaresPlusIcon,
+	ChevronDownIcon,
+	UserIcon,
+	PowerIcon,
+	AcademicCapIcon,
 } from "@heroicons/react/24/solid";
 
 import logo from "./../assets/logo.png";
+import useAuth from "./../Hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const Header = () => {
 	const [openNav, setOpenNav] = useState(false);
+
+	const { user } = useAuth();
+
 	const navList = (
 		<ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
 			<NavLink to="/">
@@ -80,24 +97,34 @@ const Header = () => {
 				</NavLink>
 				<div className="hidden lg:block">{navList}</div>
 				<div className="flex items-center gap-x-1">
-					<Link to="/login">
-						<Button
-							variant="text"
-							size="sm"
-							className="hidden lg:inline-block "
-						>
-							<span>Log In</span>
-						</Button>
-					</Link>
-					<Link to="/register">
-						<Button
-							variant="gradient"
-							size="sm"
-							className="hidden lg:inline-block "
-						>
-							<span>Sign Up</span>
-						</Button>
-					</Link>
+					{user ? (
+						<>
+							<div className="hidden lg:inline-block ">
+								<ProfileMenu />
+							</div>
+						</>
+					) : (
+						<>
+							<Link to="/login">
+								<Button
+									variant="text"
+									size="sm"
+									className="hidden lg:inline-block "
+								>
+									<span>Log In</span>
+								</Button>
+							</Link>
+							<Link to="/register">
+								<Button
+									variant="gradient"
+									size="sm"
+									className="hidden lg:inline-block "
+								>
+									<span>Sign Up</span>
+								</Button>
+							</Link>
+						</>
+					)}
 				</div>
 				<IconButton
 					variant="text"
@@ -116,21 +143,120 @@ const Header = () => {
 				<div className="container mx-auto">
 					{navList}
 					<div className="flex items-center gap-x-1">
-						<Link to="/login">
-							<Button fullWidth variant="text" size="sm" className="">
-								<span>Log In</span>
-							</Button>
-						</Link>
-						<Link to="/register">
-							<Button fullWidth variant="gradient" size="sm" className="">
-								<span>Sign Up</span>
-							</Button>
-						</Link>
+						{user ? (
+							<>
+								<ProfileMenu />
+							</>
+						) : (
+							<>
+								<Link to="/login">
+									<Button fullWidth variant="text" size="sm">
+										<span>Log In</span>
+									</Button>
+								</Link>
+								<Link to="/register">
+									<Button fullWidth variant="gradient" size="sm">
+										<span>Sign Up</span>
+									</Button>
+								</Link>
+							</>
+						)}
 					</div>
 				</div>
 			</Collapse>
 		</Navbar>
 	);
 };
+
+function ProfileMenu() {
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const { user, logOut } = useAuth();
+	const axiosPublic = useAxiosPublic();
+	const navigate = useNavigate();
+
+	const { data: userData = [], isPending } = useQuery({
+		queryKey: ["users"],
+		queryFn: async () => {
+			const res = await axiosPublic("/users");
+			return res.data;
+		},
+	});
+
+	if (isPending) {
+		return <Spinner />;
+	}
+
+	const loggedUser = userData.find((data) => data.email === user.email);
+
+	const handleLogout = () => {
+		logOut().then(() => {
+			Swal.fire({
+				title: "Successfully",
+				text: "Your Account has been Log Out!",
+				icon: "success",
+				showConfirmButton: false,
+				timer: 1000,
+			});
+			navigate("/");
+		});
+	};
+
+	return (
+		<Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+			<MenuHandler>
+				<Button
+					variant="text"
+					color="blue-gray"
+					className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
+				>
+					<Avatar
+						variant="circular"
+						size="sm"
+						alt={user?.displayName}
+						className="border border-gray-600"
+						src={user?.photoURL}
+					/>
+					<ChevronDownIcon
+						strokeWidth={2.5}
+						className={`h-3 w-3 transition-transform ${
+							isMenuOpen ? "rotate-180" : ""
+						}`}
+					/>
+				</Button>
+			</MenuHandler>
+			<MenuList className="p-1">
+				<MenuItem className="flex items-center gap-2 rounded">
+					<Typography
+						as="span"
+						variant="small"
+						className="font-normal flex items-center gap-2"
+					>
+						<UserIcon className="h-4 w-4" />
+						{user?.displayName}
+					</Typography>
+				</MenuItem>
+				<MenuItem className="flex items-center gap-2 rounded">
+					<Typography
+						as="span"
+						variant="small"
+						className="font-normal flex items-center gap-2 capitalize"
+					>
+						<AcademicCapIcon className="h-4 w-4" /> {loggedUser?.role}
+					</Typography>
+				</MenuItem>
+				<MenuItem className="flex items-center gap-2 rounded">
+					<Typography
+						as="span"
+						variant="small"
+						className="font-normal flex items-center gap-2 hover:text-red-500"
+						onClick={handleLogout}
+					>
+						<PowerIcon className="h-4 w-4" /> Log Out
+					</Typography>
+				</MenuItem>
+			</MenuList>
+		</Menu>
+	);
+}
 
 export default Header;
