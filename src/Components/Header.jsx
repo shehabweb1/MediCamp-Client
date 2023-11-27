@@ -9,7 +9,6 @@ import {
 	Avatar,
 	MenuList,
 	MenuItem,
-	Spinner,
 } from "@material-tailwind/react";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -28,14 +27,13 @@ import {
 
 import logo from "./../assets/logo.png";
 import useAuth from "./../Hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import useUserLoggedIn from "../Hooks/useUserLoggedIn";
 
 const Header = () => {
 	const [openNav, setOpenNav] = useState(false);
-
 	const { user } = useAuth();
+	const loggedUser = useUserLoggedIn();
 
 	const navList = (
 		<ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -63,7 +61,18 @@ const Header = () => {
 					<div className="flex items-center">Available Camps</div>
 				</Typography>
 			</NavLink>
-			<NavLink to="/dashboard">
+
+			<NavLink
+				to={
+					(loggedUser?.role === "organizer" &&
+						"/dashboard/organizer/profile") ||
+					(loggedUser?.role === "participant" &&
+						"/dashboard/participant/profile") ||
+					(loggedUser?.role === "healthcare-professional" &&
+						"/dashboard/healthcare-professional/profile") ||
+					"/login"
+				}
+			>
 				<Typography
 					as="li"
 					variant="small"
@@ -171,22 +180,8 @@ const Header = () => {
 function ProfileMenu() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const { user, logOut } = useAuth();
-	const axiosPublic = useAxiosPublic();
+	const loggedUser = useUserLoggedIn();
 	const navigate = useNavigate();
-
-	const { data: userData = [], isPending } = useQuery({
-		queryKey: ["users"],
-		queryFn: async () => {
-			const res = await axiosPublic("/users");
-			return res.data;
-		},
-	});
-
-	if (isPending) {
-		return <Spinner />;
-	}
-
-	const loggedUser = userData.find((data) => data.email === user.email);
 
 	const handleLogout = () => {
 		logOut().then(() => {
