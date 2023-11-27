@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 const useUserLoggedIn = () => {
 	const { user } = useAuth();
 	const axiosPublic = useAxiosPublic();
-	const { data: userData = [], isPending } = useQuery({
+	const { data: userData, isPending } = useQuery({
 		queryKey: ["users"],
 		queryFn: async () => {
 			const res = await axiosPublic(`/users/${user.email}`);

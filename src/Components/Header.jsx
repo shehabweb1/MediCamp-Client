@@ -33,7 +33,7 @@ import useUserLoggedIn from "../Hooks/useUserLoggedIn";
 const Header = () => {
 	const [openNav, setOpenNav] = useState(false);
 	const { user } = useAuth();
-	const loggedUser = useUserLoggedIn();
+	const userData = useUserLoggedIn();
 
 	const navList = (
 		<ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -64,11 +64,10 @@ const Header = () => {
 
 			<NavLink
 				to={
-					(loggedUser?.role === "organizer" &&
-						"/dashboard/organizer-profile") ||
-					(loggedUser?.role === "participant" &&
+					(userData?.role === "organizer" && "/dashboard/organizer-profile") ||
+					(userData?.role === "participant" &&
 						"/dashboard/participant-profiles") ||
-					(loggedUser?.role === "healthcare-professional" &&
+					(userData?.role === "healthcare-professional" &&
 						"/dashboard/professional-profile") ||
 					"/login"
 				}
@@ -180,8 +179,8 @@ const Header = () => {
 function ProfileMenu() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const { user, logOut } = useAuth();
-	const loggedUser = useUserLoggedIn();
 	const navigate = useNavigate();
+	const userData = useUserLoggedIn();
 
 	const handleLogout = () => {
 		logOut().then(() => {
@@ -236,7 +235,7 @@ function ProfileMenu() {
 						variant="small"
 						className="font-normal flex items-center gap-2 capitalize"
 					>
-						<AcademicCapIcon className="h-4 w-4" /> {loggedUser?.role}
+						<AcademicCapIcon className="h-4 w-4" /> {userData?.role}
 					</Typography>
 				</MenuItem>
 				<MenuItem className="flex items-center gap-2 rounded">

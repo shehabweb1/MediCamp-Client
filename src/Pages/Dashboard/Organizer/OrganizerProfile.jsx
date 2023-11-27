@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import PageHeader from "../../../Components/PageHeader";
-import useUserLoggedIn from "../../../Hooks/useUserLoggedIn";
 import Profile from "../../../Components/Profile";
 import { useState } from "react";
 import {
@@ -8,18 +7,38 @@ import {
 	DialogBody,
 	DialogHeader,
 	Input,
+	Spinner,
 	Typography,
 } from "@material-tailwind/react";
 import { AwesomeButton } from "react-awesome-button";
 import { useForm } from "react-hook-form";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import useAxiosSecure from "./../../../Hooks/useAxiosSecure";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../Hooks/useAuth";
 
 const OrganizerProfile = () => {
-	const user = useUserLoggedIn();
 	const [open, setOpen] = useState(true);
+	const { user } = useAuth();
 	const { register, handleSubmit } = useForm();
 	const axiosSecure = useAxiosSecure();
+	const axiosPublic = useAxiosPublic();
+	const {
+		data: userData,
+		isPending,
+		refetch,
+	} = useQuery({
+		queryKey: ["users"],
+		queryFn: async () => {
+			const res = await axiosPublic(`/users/${user?.email}`);
+			return res.data;
+		},
+	});
+
+	if (isPending) {
+		return <Spinner />;
+	}
 
 	const handleOpen = () => {
 		setOpen(!open);
@@ -34,9 +53,10 @@ const OrganizerProfile = () => {
 				phone: data.phone,
 			};
 
-			axiosSecure.patch(`/users/${user.email}`, updateInfo).then((res) => {
+			axiosSecure.patch(`/users/${userData.email}`, updateInfo).then((res) => {
 				if (res.data.modifiedCount > 0) {
 					handleOpen();
+					refetch();
 				}
 			});
 		}
@@ -48,7 +68,7 @@ const OrganizerProfile = () => {
 			</Helmet>
 			<main className="relative">
 				<PageHeader title="Organizer Profile" />
-				<Profile user={user} handleModal={handleOpen} />
+				<Profile user={userData} handleModal={handleOpen} />
 			</main>
 			<Dialog open={!open} size="lg" handler={handleOpen}>
 				<DialogHeader className="flex justify-between">
@@ -66,7 +86,7 @@ const OrganizerProfile = () => {
 									<Input
 										type="text"
 										size="lg"
-										defaultValue={user?.name}
+										defaultValue={userData?.name}
 										{...register("organization_name")}
 										placeholder="John Wick"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -82,7 +102,7 @@ const OrganizerProfile = () => {
 									<Input
 										size="lg"
 										type="email"
-										defaultValue={user?.email}
+										defaultValue={userData?.email}
 										{...register("contact_email")}
 										placeholder="name@mail.com"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -100,7 +120,7 @@ const OrganizerProfile = () => {
 									<Input
 										type="text"
 										size="lg"
-										defaultValue={user?.phone}
+										defaultValue={userData?.phone}
 										{...register("phone")}
 										placeholder="+8801300001111"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -116,7 +136,7 @@ const OrganizerProfile = () => {
 									<Input
 										size="lg"
 										type="text"
-										defaultValue={user?.address}
+										defaultValue={userData?.address}
 										{...register("address")}
 										placeholder="Dhaka, Bangladesh"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
