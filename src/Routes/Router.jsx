@@ -8,9 +8,17 @@ import SignUp from "../Pages/SignUp/SignUp";
 import Dashboard from "../Layout/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import OrganizerProfile from "../Pages/Dashboard/Organizer/OrganizerProfile";
-import OrganizerAddCamp from "../Pages/Dashboard/Organizer/OrganizerAddCamp";
 import HealthcareProfile from "../Pages/Dashboard/HealthcareProfessional/HealthcareProfile";
 import ParticipantProfile from "../Pages/Dashboard/Participant/ParticipantProfile";
+import AcceptedCamps from "./../Pages/Dashboard/HealthcareProfessional/AcceptedCamps";
+import AddCamp from './../Pages/Dashboard/Organizer/AddCamp';
+import ManageCamps from './../Pages/Dashboard/Organizer/ManageCamps';
+import ManageRegisteredCamps from './../Pages/Dashboard/Organizer/ManageRegisteredCamps';
+import AddUpcomingCamps from "../Pages/Dashboard/Organizer/AddUpcomingCamps";
+import ManageUpcomingCamps from './../Pages/Dashboard/Organizer/ManageUpcomingCamps';
+import RegisteredCamps from './../Pages/Dashboard/Participant/RegisteredCamps';
+import FeedbackRatings from './../Pages/Dashboard/Participant/FeedbackRatings';
+import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
 
 const router = createBrowserRouter([
 	{
@@ -46,20 +54,52 @@ const router = createBrowserRouter([
 		errorElement: <ErrorPage />,
 		children: [
 			{
-				path: "organizer/profile",
+				path: "organizer-profile",
 				element: <OrganizerProfile />,
 			},
 			{
-				path: "organizer/add-camp",
-				element: <OrganizerAddCamp />,
+				path: "add-a-camp",
+				element: <AddCamp />,
 			},
 			{
-				path: "healthcare-professional/profile",
+				path: "manage-camps",
+				element: <ManageCamps />,
+			},
+			{
+				path: "manage-registered-camps",
+				element: <ManageRegisteredCamps />,
+			},
+			{
+				path: "add-upcoming-camp",
+				element: <AddUpcomingCamps />,
+			},
+			{
+				path: "manage-upcoming-camps",
+				element: <ManageUpcomingCamps />,
+			},
+			{
+				path: "professional-profile",
 				element: <HealthcareProfile />,
 			},
 			{
-				path: "participant/profile",
+				path: "accepted-camps",
+				element: <AcceptedCamps />,
+			},
+			{
+				path: "participant-profile",
 				element: <ParticipantProfile />,
+			},
+			{
+				path: "registered-camps",
+				element: <RegisteredCamps />,
+			},
+			{
+				path: "payment-history",
+				element: <PaymentHistory />,
+			},
+			{
+				path: "feedback-and-ratings",
+				element: <FeedbackRatings />,
 			},
 		],
 	},

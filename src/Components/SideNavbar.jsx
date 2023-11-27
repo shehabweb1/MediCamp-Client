@@ -40,28 +40,68 @@ const SideNavbar = ({ isOpen, setIsOpen }) => {
 					{user?.role === "participant" && (
 						<>
 							<NavLink
-								to="/dashboard/participant/profile"
+								to="/dashboard/participant-profile"
 								className={({ isActive, isPending }) =>
 									isActive ? "text-[#054279]" : isPending ? "pending" : ""
 								}
 							>
 								<li className="mb-5 flex gap-2 font-semibold  hover:text-[#054279] transition-all">
-									<UserIcon className="h-6 w-6" /> Profile
+									<UserIcon className="h-6 w-6" /> Profile Management
 								</li>
 							</NavLink>
+							<NavLink
+								to="/dashboard/registered-camps"
+								className={({ isActive, isPending }) =>
+									isActive ? "text-[#054279]" : isPending ? "pending" : ""
+								}
+							>
+								<li className="mb-5 flex gap-2 font-semibold  hover:text-[#054279] transition-all">
+									<UserIcon className="h-6 w-6" /> Registered Camps
+								</li>
+							</NavLink>
+							<NavLink
+								to="/dashboard/payment-history"
+								className={({ isActive, isPending }) =>
+									isActive ? "text-[#054279]" : isPending ? "pending" : ""
+								}
+							>
+								<li className="mb-5 flex gap-2 font-semibold  hover:text-[#054279] transition-all">
+									<UserIcon className="h-6 w-6" /> Payment History
+								</li>
+							</NavLink>
+							<NavLink
+								to="/dashboard/feedback-and-ratings"
+								className={({ isActive, isPending }) =>
+									isActive ? "text-[#054279]" : isPending ? "pending" : ""
+								}
+							>
+								<li className="mb-5 flex gap-2 font-semibold  hover:text-[#054279] transition-all">
+									<UserIcon className="h-6 w-6" /> Feedback and Ratings
+								</li>
+							</NavLink>							
 						</>
 					)}
 
 					{user?.role === "healthcare-professional" && (
 						<>
 							<NavLink
-								to="/dashboard/healthcare-professional/profile"
+								to="/dashboard/professional-profile"
 								className={({ isActive, isPending }) =>
 									isActive ? "text-[#054279]" : isPending ? "pending" : ""
 								}
 							>
 								<li className="mb-5 flex gap-2 font-semibold  hover:text-[#054279] transition-all">
-									<UserIcon className="h-6 w-6" /> Profile
+									<UserIcon className="h-6 w-6" /> Profile Management
+								</li>
+							</NavLink>
+							<NavLink
+								to="/dashboard/accepted-camps"
+								className={({ isActive, isPending }) =>
+									isActive ? "text-[#054279]" : isPending ? "pending" : ""
+								}
+							>
+								<li className="mb-5 flex gap-2 font-semibold  hover:text-[#054279] transition-all">
+									<UserIcon className="h-6 w-6" /> Accepted Camps
 								</li>
 							</NavLink>
 						</>
@@ -70,7 +110,7 @@ const SideNavbar = ({ isOpen, setIsOpen }) => {
 					{user?.role === "organizer" && (
 						<>
 							<NavLink
-								to="/dashboard/organizer/profile"
+								to="/dashboard/organizer-profile"
 								className={({ isActive, isPending }) =>
 									isActive ? "text-[#054279]" : isPending ? "pending" : ""
 								}
@@ -80,7 +120,7 @@ const SideNavbar = ({ isOpen, setIsOpen }) => {
 								</li>
 							</NavLink>
 							<NavLink
-								to="/dashboard/organizer/add-camp"
+								to="/dashboard/add-a-camp"
 								className={({ isActive, isPending }) =>
 									isActive ? "text-[#054279]" : isPending ? "pending" : ""
 								}
@@ -90,7 +130,7 @@ const SideNavbar = ({ isOpen, setIsOpen }) => {
 								</li>
 							</NavLink>
 							<NavLink
-								to="/dashboard/organizer/manage-camps"
+								to="/dashboard/manage-camps"
 								className={({ isActive, isPending }) =>
 									isActive ? "text-[#054279]" : isPending ? "pending" : ""
 								}
@@ -100,7 +140,7 @@ const SideNavbar = ({ isOpen, setIsOpen }) => {
 								</li>
 							</NavLink>
 							<NavLink
-								to="/dashboard/organizer/manage-registered-camps"
+								to="/dashboard/manage-registered-camps"
 								className={({ isActive, isPending }) =>
 									isActive ? "text-[#054279]" : isPending ? "pending" : ""
 								}
@@ -111,7 +151,7 @@ const SideNavbar = ({ isOpen, setIsOpen }) => {
 								</li>
 							</NavLink>
 							<NavLink
-								to="/dashboard/organizer/add-upcoming-camps"
+								to="/dashboard/add-upcoming-camp"
 								className={({ isActive, isPending }) =>
 									isActive ? "text-[#054279]" : isPending ? "pending" : ""
 								}
@@ -121,7 +161,7 @@ const SideNavbar = ({ isOpen, setIsOpen }) => {
 								</li>
 							</NavLink>
 							<NavLink
-								to="/dashboard/organizer/manage-upcoming-camps"
+								to="/dashboard/manage-upcoming-camps"
 								className={({ isActive, isPending }) =>
 									isActive ? "text-[#054279]" : isPending ? "pending" : ""
 								}

@@ -65,11 +65,11 @@ const Header = () => {
 			<NavLink
 				to={
 					(loggedUser?.role === "organizer" &&
-						"/dashboard/organizer/profile") ||
+						"/dashboard/organizer-profile") ||
 					(loggedUser?.role === "participant" &&
-						"/dashboard/participant/profile") ||
+						"/dashboard/participant-profiles") ||
 					(loggedUser?.role === "healthcare-professional" &&
-						"/dashboard/healthcare-professional/profile") ||
+						"/dashboard/professional-profile") ||
 					"/login"
 				}
 			>
