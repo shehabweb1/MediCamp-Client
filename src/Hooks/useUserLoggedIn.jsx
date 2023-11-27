@@ -9,7 +9,7 @@ const useUserLoggedIn = () => {
 	const { data: userData = [], isPending } = useQuery({
 		queryKey: ["users"],
 		queryFn: async () => {
-			const res = await axiosPublic("/users");
+			const res = await axiosPublic(`/users/${user.email}`);
 			return res.data;
 		},
 	});
@@ -18,8 +18,7 @@ const useUserLoggedIn = () => {
 		return <Spinner />;
 	}
 
-	const loggedUser = userData.find((data) => data.email === user?.email);
-	return loggedUser;
+	return userData;
 };
 
 export default useUserLoggedIn;

@@ -9,12 +9,12 @@ const Dashboard = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
-		<div className="flex gap-5">
+		<div className="flex">
 			<div className={`max-w-lg md:block ${isOpen ? "block" : "hidden"}`}>
 				<SideNavbar isOpen={isOpen} setIsOpen={setIsOpen} />
 			</div>
 			{!isOpen && (
-				<div className="w-full">
+				<div className="w-full px-5">
 					<div className="md:hidden block pb-5">
 						<Navbar className="w-full flex justify-between">
 							<NavLink to="/" className="mx-auto cursor-pointer ">
