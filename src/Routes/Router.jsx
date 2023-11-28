@@ -21,6 +21,7 @@ import FeedbackRatings from "./../Pages/Dashboard/Participant/FeedbackRatings";
 import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
 import UpdateCamps from "../Pages/Dashboard/Organizer/UpdateCamps";
 import CampDetails from "../Pages/CampDetails/CampDetails";
+import Payment from "../Pages/Dashboard/Participant/Payment";
 
 const router = createBrowserRouter([
 	{
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
 			{
 				path: "registered-camps",
 				element: <RegisteredCamps />,
+			},
+			{
+				path: "payment",
+				element: <Payment />,
 			},
 			{
 				path: "payment-history",

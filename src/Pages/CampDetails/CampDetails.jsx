@@ -31,7 +31,6 @@ const CampDetails = () => {
 		date,
 		name,
 		email,
-		_id,
 		service,
 		audience,
 		camp_fees,
@@ -47,10 +46,10 @@ const CampDetails = () => {
 
 	const handleJoinCamp = (data) => {
 		const newParticipant = {
-			camp_id: _id,
+			camp: camp,
 			participant_name: data.participant_name,
 			email: userData.email,
-			gender: data.gender,
+			gender: data.gender.value,
 			age: data.age,
 			phone: data.phone,
 			address: data.address,
