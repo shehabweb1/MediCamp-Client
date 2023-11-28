@@ -66,7 +66,7 @@ const Header = () => {
 				to={
 					(userData?.role === "organizer" && "/dashboard/organizer-profile") ||
 					(userData?.role === "participant" &&
-						"/dashboard/participant-profiles") ||
+						"/dashboard/participant-profile") ||
 					(userData?.role === "healthcare-professional" &&
 						"/dashboard/professional-profile") ||
 					"/login"

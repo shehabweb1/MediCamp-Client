@@ -148,7 +148,7 @@ const OrganizerProfile = () => {
 							</div>
 						</div>
 						<div className="flex justify-center mt-5">
-							<AwesomeButton type="primary">Update Profile</AwesomeButton>
+							<AwesomeButton type="primary">Update</AwesomeButton>
 						</div>
 					</form>
 				</DialogBody>
