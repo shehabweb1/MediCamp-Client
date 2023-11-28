@@ -20,6 +20,7 @@ import RegisteredCamps from "./../Pages/Dashboard/Participant/RegisteredCamps";
 import FeedbackRatings from "./../Pages/Dashboard/Participant/FeedbackRatings";
 import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
 import UpdateCamps from "../Pages/Dashboard/Organizer/UpdateCamps";
+import CampDetails from "../Pages/CampDetails/CampDetails";
 
 const router = createBrowserRouter([
 	{
@@ -42,6 +43,12 @@ const router = createBrowserRouter([
 			{
 				path: "/contact",
 				element: <Contact />,
+			},
+			{
+				path: "/camp-details/:id",
+				element: <CampDetails />,
+				loader: ({ params }) =>
+					fetch(`http://localhost:3000/camps/${params.id}`),
 			},
 		],
 	},

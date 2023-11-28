@@ -11,8 +11,8 @@ const PopularMedicalCamps = () => {
 		<div>
 			<PageHeader title="Popular Medical Camps" />
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-				{popularCamps.map((camp) => (
-					<CampCard key={camp._id} camp={camp} />
+				{popularCamps?.map((camp) => (
+					<CampCard key={camp?._id} camp={camp} />
 				))}
 			</div>
 			<Link to="/available-camps" className="flex justify-center mt-8">

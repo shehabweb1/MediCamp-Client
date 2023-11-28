@@ -29,11 +29,15 @@ const CampCard = ({ camp }) => {
 		healthcare,
 		description,
 	} = camp;
-	const short_description = description.slice(0, 120);
+	const short_description = description?.slice(0, 120);
 	return (
 		<Card className="mt-6 w-full">
 			<CardHeader color="blue-gray" className="relative h-56">
-				<img src={image} alt={camp_name} />
+				<img
+					src={image}
+					alt={camp_name}
+					className="w-full h-full object-cover"
+				/>
 			</CardHeader>
 			<CardBody>
 				<Typography variant="h5" color="blue-gray" className="mb-2">
@@ -63,7 +67,7 @@ const CampCard = ({ camp }) => {
 				</div>
 				<Typography>{short_description} ....</Typography>
 			</CardBody>
-			<CardFooter className="pt-0">
+			<CardFooter className="pt-0 mt-auto">
 				<Link to={`/camp-details/${_id}`}>
 					<AwesomeButton type="primary">View Details</AwesomeButton>
 				</Link>
