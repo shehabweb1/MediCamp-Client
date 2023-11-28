@@ -11,14 +11,15 @@ import OrganizerProfile from "../Pages/Dashboard/Organizer/OrganizerProfile";
 import HealthcareProfile from "../Pages/Dashboard/HealthcareProfessional/HealthcareProfile";
 import ParticipantProfile from "../Pages/Dashboard/Participant/ParticipantProfile";
 import AcceptedCamps from "./../Pages/Dashboard/HealthcareProfessional/AcceptedCamps";
-import AddCamp from './../Pages/Dashboard/Organizer/AddCamp';
-import ManageCamps from './../Pages/Dashboard/Organizer/ManageCamps';
-import ManageRegisteredCamps from './../Pages/Dashboard/Organizer/ManageRegisteredCamps';
+import AddCamp from "./../Pages/Dashboard/Organizer/AddCamp";
+import ManageCamps from "./../Pages/Dashboard/Organizer/ManageCamps";
+import ManageRegisteredCamps from "./../Pages/Dashboard/Organizer/ManageRegisteredCamps";
 import AddUpcomingCamps from "../Pages/Dashboard/Organizer/AddUpcomingCamps";
-import ManageUpcomingCamps from './../Pages/Dashboard/Organizer/ManageUpcomingCamps';
-import RegisteredCamps from './../Pages/Dashboard/Participant/RegisteredCamps';
-import FeedbackRatings from './../Pages/Dashboard/Participant/FeedbackRatings';
+import ManageUpcomingCamps from "./../Pages/Dashboard/Organizer/ManageUpcomingCamps";
+import RegisteredCamps from "./../Pages/Dashboard/Participant/RegisteredCamps";
+import FeedbackRatings from "./../Pages/Dashboard/Participant/FeedbackRatings";
 import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
+import UpdateCamps from "../Pages/Dashboard/Organizer/UpdateCamps";
 
 const router = createBrowserRouter([
 	{
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
 			{
 				path: "manage-camps",
 				element: <ManageCamps />,
+			},
+			{
+				path: "update-camps/:id",
+				element: <UpdateCamps />,
 			},
 			{
 				path: "manage-registered-camps",

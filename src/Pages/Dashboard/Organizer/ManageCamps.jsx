@@ -7,19 +7,25 @@ import {
 	CardFooter,
 	CardHeader,
 	IconButton,
-	Input,
 	Spinner,
 	Typography,
 } from "@material-tailwind/react";
-import { MagnifyingGlassIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { AwesomeButton } from "react-awesome-button";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const ManageCamps = () => {
 	const axiosPublic = useAxiosPublic();
-	const { data: campsData, isPending } = useQuery({
+	const axiosSecure = useAxiosSecure();
+	const {
+		data: campsData,
+		isPending,
+		refetch,
+	} = useQuery({
 		queryKey: ["camps"],
 		queryFn: async () => {
 			const res = await axiosPublic.get("/camps");
@@ -39,8 +45,34 @@ const ManageCamps = () => {
 		"Healthcare",
 		"Audience",
 		"Action",
-		"Delete",
 	];
+
+	const handleDeleteCamp = (id) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				axiosSecure.delete(`/camps/${id}`).then((res) => {
+					if (res.data.deletedCount > 0) {
+						Swal.fire({
+							title: "Deleted!",
+							text: "Camp has been deleted.",
+							icon: "success",
+							showConfirmButton: false,
+							timer: 1000,
+						});
+						refetch();
+					}
+				});
+			}
+		});
+	};
 
 	return (
 		<>
@@ -54,12 +86,6 @@ const ManageCamps = () => {
 					<CardHeader floated={false} shadow={false} className="rounded-none">
 						<div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
 							<div className="flex w-full shrink-0 gap-2 md:w-max">
-								<div className="w-full md:w-72">
-									<Input
-										label="Search"
-										icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-									/>
-								</div>
 								<Link to="/dashboard/add-a-camp">
 									<Button className="flex items-center gap-3" size="sm">
 										<PlusCircleIcon className="h-4 w-4" />
@@ -91,7 +117,7 @@ const ManageCamps = () => {
 							</thead>
 							<tbody>
 								{campsData.map((camp, idx) => (
-									<tr key={camp._id}>
+									<tr key={camp._id} className="mb-3">
 										<td>{idx + 1}</td>
 										<td>{camp.camp_name}</td>
 										<td>{camp.date}</td>
@@ -99,12 +125,19 @@ const ManageCamps = () => {
 										<td>{camp.healthcare}</td>
 										<td>{camp.audience}</td>
 										<td>
-											<Link to={`/dashboard/manage-camps/${camp._id}`}>
-												View Details
-											</Link>
-										</td>
-										<td>
-											<AwesomeButton type="danger">Delete</AwesomeButton>
+											<div className="inline-block mr-2">
+												<Link to={`/dashboard/update-camps/${camp._id}`}>
+													<AwesomeButton type="primary">Edit</AwesomeButton>
+												</Link>
+											</div>
+											<div className="inline-block">
+												<AwesomeButton
+													type="danger"
+													onMouseUp={() => handleDeleteCamp(camp._id)}
+												>
+													Delete
+												</AwesomeButton>
+											</div>
 										</td>
 									</tr>
 								))}

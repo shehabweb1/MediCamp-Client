@@ -1,38 +1,42 @@
-import { Helmet } from "react-helmet-async";
-import PageHeader from "./../../../Components/PageHeader";
+import { Input, Spinner, Textarea, Typography } from "@material-tailwind/react";
 import { AwesomeButton } from "react-awesome-button";
-import { Input, Textarea, Typography } from "@material-tailwind/react";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { useNavigate } from "react-router-dom";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import PageHeader from "../../../Components/PageHeader";
+import { Helmet } from "react-helmet-async";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
-const image_key = import.meta.env.VITE_IMAGE_KEY;
-const image_api = `https://api.imgbb.com/1/upload?key=${image_key}`;
-const AddCamp = () => {
+const UpdateCamps = () => {
 	const [startDate, setStartDate] = useState(new Date());
 	const date = startDate.toDateString();
 	const { register, handleSubmit } = useForm();
-	const axiosPublic = useAxiosPublic();
 	const axiosSecure = useAxiosSecure();
+	const axiosPublic = useAxiosPublic();
+	const { id } = useParams();
+
 	const navigate = useNavigate();
 
+	const { data: campData, isPending } = useQuery({
+		queryKey: ["camp"],
+		queryFn: async () => {
+			const res = await axiosPublic(`/camps/${id}`);
+			return res.data;
+		},
+	});
+
+	if (isPending) {
+		return <Spinner />;
+	}
+
 	const handleAddCamp = async (data) => {
-		const imageFile = { image: data.image[0] };
-		const res = await axiosPublic.post(image_api, imageFile, {
-			headers: {
-				"content-type": "multipart/form-data",
-			},
-		});
-		if (res.data) {
-			const newCamp = {
+		if (data) {
+			const updateCamp = {
 				camp_name: data.camp_name,
-				image: res.data.data.display_url,
 				date: date,
 				camp_fees: data.camp_fees,
 				location: data.location,
@@ -42,11 +46,11 @@ const AddCamp = () => {
 				description: data.description,
 			};
 
-			axiosSecure.post("/camps", newCamp).then((res) => {
-				if (res.data.insertedId) {
+			axiosSecure.patch(`/camps/${id}`, updateCamp).then((res) => {
+				if (res.data.modifiedCount > 0) {
 					Swal.fire({
 						title: "Successfully",
-						text: "Added new camp Successfully!",
+						text: "Camp has been updated Successfully!",
 						icon: "success",
 						showConfirmButton: false,
 						timer: 1000,
@@ -59,10 +63,10 @@ const AddCamp = () => {
 	return (
 		<>
 			<Helmet>
-				<title>MediCamp | Add A Camp</title>
+				<title>MediCamp | Update Camp</title>
 			</Helmet>
 			<main>
-				<PageHeader title="Add A Camp" />
+				<PageHeader title="Update Camp" />
 				<div className="py-5">
 					<form onSubmit={handleSubmit(handleAddCamp)} className="w-full">
 						<div className="w-3/4 mx-auto flex flex-col gap-6">
@@ -74,6 +78,7 @@ const AddCamp = () => {
 									type="text"
 									size="lg"
 									{...register("camp_name")}
+									defaultValue={campData?.camp_name}
 									placeholder="John Wick"
 									className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
 									labelProps={{
@@ -89,7 +94,6 @@ const AddCamp = () => {
 
 									<Input
 										type="file"
-										{...register("image", { required: true })}
 										name="image"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
 									/>
@@ -102,6 +106,7 @@ const AddCamp = () => {
 										type="number"
 										size="lg"
 										{...register("camp_fees")}
+										defaultValue={campData?.camp_fees}
 										placeholder="520"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
 										labelProps={{
@@ -131,6 +136,7 @@ const AddCamp = () => {
 										type="text"
 										size="lg"
 										{...register("location")}
+										defaultValue={campData?.location}
 										placeholder="Dhaka"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
 										labelProps={{
@@ -146,6 +152,7 @@ const AddCamp = () => {
 										size="lg"
 										type="text"
 										{...register("service")}
+										defaultValue={campData?.service}
 										placeholder="Eyes Treatment"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
 										labelProps={{
@@ -163,6 +170,7 @@ const AddCamp = () => {
 										type="text"
 										size="lg"
 										{...register("healthcare")}
+										defaultValue={campData?.healthcare}
 										placeholder="Dr. Khan"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
 										labelProps={{
@@ -178,6 +186,7 @@ const AddCamp = () => {
 										size="lg"
 										type="text"
 										{...register("audience")}
+										defaultValue={campData?.audience}
 										placeholder="Teenage"
 										className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
 										labelProps={{
@@ -192,6 +201,7 @@ const AddCamp = () => {
 								</Typography>
 								<Textarea
 									{...register("description")}
+									defaultValue={campData?.description}
 									placeholder="Write a Description"
 									className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
 									labelProps={{
@@ -201,7 +211,7 @@ const AddCamp = () => {
 							</div>
 						</div>
 						<div className="flex justify-center mt-5">
-							<AwesomeButton type="primary">Add New Camp</AwesomeButton>
+							<AwesomeButton type="primary">Update Camp</AwesomeButton>
 						</div>
 					</form>
 				</div>
@@ -210,4 +220,4 @@ const AddCamp = () => {
 	);
 };
 
-export default AddCamp;
+export default UpdateCamps;
