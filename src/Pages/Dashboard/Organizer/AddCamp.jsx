@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import useUserLoggedIn from "../../../Hooks/useUserLoggedIn";
 
 const image_key = import.meta.env.VITE_IMAGE_KEY;
 const image_api = `https://api.imgbb.com/1/upload?key=${image_key}`;
@@ -21,6 +22,7 @@ const AddCamp = () => {
 	const axiosPublic = useAxiosPublic();
 	const axiosSecure = useAxiosSecure();
 	const navigate = useNavigate();
+	const userData = useUserLoggedIn();
 
 	const handleAddCamp = async (data) => {
 		const imageFile = { image: data.image[0] };
@@ -40,6 +42,9 @@ const AddCamp = () => {
 				healthcare: data.healthcare,
 				audience: data.audience,
 				description: data.description,
+				name: userData.name,
+				email: userData.email,
+				profile: userData.image,
 			};
 
 			axiosSecure.post("/camps", newCamp).then((res) => {

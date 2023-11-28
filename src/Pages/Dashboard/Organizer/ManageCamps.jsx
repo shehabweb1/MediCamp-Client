@@ -13,22 +13,22 @@ import {
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { AwesomeButton } from "react-awesome-button";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import useAuth from "../../../Hooks/useAuth";
 
 const ManageCamps = () => {
-	const axiosPublic = useAxiosPublic();
 	const axiosSecure = useAxiosSecure();
+	const { user } = useAuth();
 	const {
 		data: campsData,
 		isPending,
 		refetch,
 	} = useQuery({
-		queryKey: ["camps"],
+		queryKey: ["camps", `${user?.email}`],
 		queryFn: async () => {
-			const res = await axiosPublic.get("/camps");
+			const res = await axiosSecure.get(`/camps/organizer/${user?.email}`);
 			return res.data;
 		},
 	});

@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
 const UpdateCamps = () => {
 	const [startDate, setStartDate] = useState(new Date());
@@ -22,7 +22,7 @@ const UpdateCamps = () => {
 	const navigate = useNavigate();
 
 	const { data: campData, isPending } = useQuery({
-		queryKey: ["camp"],
+		queryKey: ["camps"],
 		queryFn: async () => {
 			const res = await axiosPublic(`/camps/${id}`);
 			return res.data;
