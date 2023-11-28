@@ -5,7 +5,6 @@ import {
 	Card,
 	CardBody,
 	CardFooter,
-	CardHeader,
 	IconButton,
 	Spinner,
 	Typography,
@@ -83,17 +82,6 @@ const RegisteredCamps = () => {
 				<PageHeader title="Registered Camps" />
 
 				<Card className="h-full w-full">
-					<CardHeader floated={false} shadow={false} className="rounded-none">
-						<div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
-							<div className="flex w-full shrink-0 gap-2 md:w-max">
-								<div className="inline-block mr-2">
-									<Link to="/dashboard/payment">
-										<AwesomeButton type="primary">Pay</AwesomeButton>
-									</Link>
-								</div>
-							</div>
-						</div>
-					</CardHeader>
 					<CardBody className="overflow-scroll px-0">
 						<table className="w-full min-w-max table-auto text-left">
 							<thead>
@@ -118,11 +106,21 @@ const RegisteredCamps = () => {
 								{regiData.map((regiCamp, idx) => (
 									<tr key={regiCamp._id} className="mb-3">
 										<td>{idx + 1}</td>
-										<td>{regiCamp.camp.camp_name}</td>
-										<td>{regiCamp.camp.date}</td>
-										<td>{regiCamp.camp.location}</td>
-										<td>{regiCamp.camp_fees}</td>
-										<td>Unpaid</td>
+										<td>{regiCamp?.camp?.camp_name}</td>
+										<td>{regiCamp?.camp?.date}</td>
+										<td>{regiCamp?.camp?.location}</td>
+										<td>{regiCamp?.camp_fees}</td>
+										<td>
+											{regiCamp?.payment_status ? (
+												<AwesomeButton type="primary" disabled>
+													Paid
+												</AwesomeButton>
+											) : (
+												<Link to="/dashboard/payment">
+													<AwesomeButton type="primary">Pay</AwesomeButton>
+												</Link>
+											)}
+										</td>
 										<td>Pending</td>
 										<td>
 											<div className="inline-block">
