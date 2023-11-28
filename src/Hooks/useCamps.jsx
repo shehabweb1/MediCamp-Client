@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "./useAxiosPublic";
-import { Spinner } from "@material-tailwind/react";
 
 const useCamps = () => {
 	const axiosPublic = useAxiosPublic();
-	const { data: campsData, isPending } = useQuery({
+	const {
+		data: campsData = [],
+		isPending: loading,
+		refetch,
+	} = useQuery({
 		queryKey: ["camps"],
 		queryFn: async () => {
 			const res = await axiosPublic.get("/camps");
@@ -12,11 +15,7 @@ const useCamps = () => {
 		},
 	});
 
-	if (isPending) {
-		return <Spinner />;
-	}
-
-	return campsData;
+	return [campsData, loading, refetch];
 };
 
 export default useCamps;
