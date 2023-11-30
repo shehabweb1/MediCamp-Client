@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const ParticipantProfile = () => {
 	const [open, setOpen] = useState(true);
@@ -56,6 +57,13 @@ const ParticipantProfile = () => {
 			axiosSecure.patch(`/users/${userData.email}`, updateInfo).then((res) => {
 				if (res.data.modifiedCount > 0) {
 					handleOpen();
+					Swal.fire({
+						title: "Successfully",
+						text: "Your Profile Updated Successfully!",
+						icon: "success",
+						showConfirmButton: false,
+						timer: 1000,
+					});
 					refetch();
 				}
 			});

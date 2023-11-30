@@ -13,11 +13,9 @@ import { Spinner } from "@material-tailwind/react";
 const Testimonials = () => {
 	const axiosPublic = useAxiosPublic();
 	const { data: reviews = [], isPending } = useQuery({
-		queryKey: ["reviews"],
+		queryKey: ["feedback"],
 		queryFn: async () => {
-			const res = await axiosPublic.get(
-				"https://bistroboss-pi.vercel.app/reviews"
-			);
+			const res = await axiosPublic.get("/feedback");
 			return res.data;
 		},
 	});
@@ -51,12 +49,12 @@ const Testimonials = () => {
 							<div className="flex flex-col md:flex-row md:justify-around w-full md:w-4/5 text-white mx-auto">
 								<div className="w-full md:w-1/3">
 									<img
-										src="https://i.ibb.co/Rj4LwS4/pic.jpg"
-										alt={review.name}
+										src={review.participant_image}
+										alt={review.participant_name}
 										className="w-20 h-20 rounded-full mx-auto mb-2"
 									/>
 									<h3 className="text-4xl font-semibold text-center">
-										{review.name}
+										{review.participant_name}
 									</h3>
 								</div>
 								<div className="w-full md:w-2/3">
@@ -66,7 +64,7 @@ const Testimonials = () => {
 										readOnly
 										className="mx-auto"
 									/>
-									<p className="mx-auto text-center my-3">{review.details}</p>
+									<p className="mx-auto text-center my-3">{review.feedback}</p>
 								</div>
 							</div>
 						</SwiperSlide>
