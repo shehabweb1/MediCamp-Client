@@ -45,6 +45,7 @@ const AddCamp = () => {
 				name: userData.name,
 				email: userData.email,
 				profile: userData.image,
+				participants: 0,
 			};
 
 			axiosSecure.post("/camps", newCamp).then((res) => {

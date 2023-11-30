@@ -30,11 +30,10 @@ const CampDetails = () => {
 		image,
 		date,
 		name,
-		email,
 		service,
 		audience,
 		camp_fees,
-		participant,
+		participants,
 		location,
 		healthcare,
 		description,
@@ -45,7 +44,7 @@ const CampDetails = () => {
 	};
 
 	const handleJoinCamp = (data) => {
-		const newParticipant = {
+		const participant = {
 			camp: camp,
 			participant_name: data.participant_name,
 			email: userData.email,
@@ -55,10 +54,10 @@ const CampDetails = () => {
 			address: data.address,
 			camp_fees: camp_fees,
 			emergency_contact: data.emergency_contact,
-			organizer_email: email,
 		};
-		axiosSecure.post("/participant", newParticipant).then((res) => {
-			if (res.data.insertedId) {
+		axiosSecure.post("/participant", participant).then((res) => {
+			console.log(res);
+			if (res.data.joinResult && res.data.updateCamps.modifiedCount) {
 				Swal.fire({
 					title: "Successfully",
 					text: "Registered Successfully!",
@@ -136,7 +135,7 @@ const CampDetails = () => {
 									<tr>
 										<td>Participant</td>
 										<td>:</td>
-										<td>{participant ? participant : 0}</td>
+										<td>{participants ? participants : 0}</td>
 									</tr>
 									<tr>
 										<td>Camp Fees</td>
