@@ -81,7 +81,7 @@ const ParticipantProfile = () => {
 							<div className="flex justify-between gap-5">
 								<div className="w-1/2">
 									<Typography variant="h6" color="blue-gray" className="mb-3">
-										Participant Name
+										Your Name
 									</Typography>
 									<Input
 										type="text"

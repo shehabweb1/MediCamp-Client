@@ -22,6 +22,7 @@ import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
 import UpdateCamps from "../Pages/Dashboard/Organizer/UpdateCamps";
 import CampDetails from "../Pages/CampDetails/CampDetails";
 import Payment from "../Pages/Dashboard/Participant/Payment";
+import AvailableCamps from "../Pages/AvailableCamps/AvailableCamps";
 
 const router = createBrowserRouter([
 	{
@@ -46,10 +47,14 @@ const router = createBrowserRouter([
 				element: <Contact />,
 			},
 			{
+				path: "/available-camps",
+				element: <AvailableCamps />,
+			},
+			{
 				path: "/camp-details/:id",
 				element: <CampDetails />,
 				loader: ({ params }) =>
-					fetch(`https://medicamp.vercel.app/camps/${params.id}`),
+					fetch(`http://localhost:3000/camps/${params.id}`),
 			},
 		],
 	},

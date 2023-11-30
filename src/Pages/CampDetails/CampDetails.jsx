@@ -82,7 +82,7 @@ const CampDetails = () => {
 						<img
 							src={image}
 							alt={camp_name}
-							className="w-full min-h-1/2 object-cover rounded-xl"
+							className="w-full max-h-[500px] object-cover rounded-xl"
 						/>
 						<div className="flex justify-between my-5">
 							<h2 className="text-2xl md:text-4xl font-bold">{camp_name}</h2>

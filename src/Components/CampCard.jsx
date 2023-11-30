@@ -40,7 +40,7 @@ const CampCard = ({ camp }) => {
 				/>
 			</CardHeader>
 			<CardBody>
-				<Typography variant="h5" color="blue-gray" className="mb-2">
+				<Typography variant="h4" className="mb-2 text-[#054279]">
 					{camp_name}
 				</Typography>
 				<div className="flex justify-between">
