@@ -54,7 +54,7 @@ const router = createBrowserRouter([
 				path: "/camp-details/:id",
 				element: <CampDetails />,
 				loader: ({ params }) =>
-					fetch(`http://localhost:3000/camps/${params.id}`),
+					fetch(`https://medicamp.vercel.app/camps/${params.id}`),
 			},
 		],
 	},
